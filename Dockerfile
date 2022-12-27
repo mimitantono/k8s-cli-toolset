@@ -1,4 +1,4 @@
-FROM ubuntu:19.10
+FROM ubuntu:22.04
 
 ARG IMAGE_CREATE_DATE
 ARG IMAGE_VERSION
@@ -9,6 +9,7 @@ ARG ISTIO_VERSION=1.5.1
 ARG LINKERD_VERSION=2.7.1
 ARG HELM_VERSION=3.1.2
 ARG KUBE_PS1_VERSION=0.7.0
+ARG KUBELOGIN_VERSION=0.0.25
 
 ENV LANG C.UTF-8
 
@@ -35,12 +36,19 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         jq \
         less \
         vim \
+        unzip \
     && echo ". /etc/bash_completion" >> ~/.bashrc \
     && rm -rf /var/lib/apt/lists/* \
     && mkdir -p ~/completions \
     && mkdir -p ~/k8s-prompt
 
 WORKDIR /tmp/install-utils
+
+# Install kubelogin
+RUN curl -LO https://github.com/Azure/kubelogin/releases/download/v$KUBELOGIN_VERSION/kubelogin-linux-amd64.zip \
+    && unzip kubelogin-linux-amd64.zip \
+    && chmod +x bin/linux_amd64/kubelogin \
+    && mv bin/linux_amd64/kubelogin /usr/local/bin/kubelogin
 
 # Install kubectl 
 # License: Apache-2.0

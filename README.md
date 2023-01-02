@@ -1,7 +1,7 @@
 This fork has additionally downloaded kubelogin into /usr/local/bin
 
 ```
-docker run -it --rm -v ${HOME}/.kube:/root/.kube -v ${HOME}/.helm:/root/.helm mimitantono:k8s-cli-toolset
+docker run -it --rm -v ${HOME}/.kube:/root/.kube -v ${HOME}/.helm:/root/.helm mimitantono/k8s-cli-toolset:latest
 ```
 
 
